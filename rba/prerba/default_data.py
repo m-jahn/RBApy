@@ -56,6 +56,8 @@ class DefaultParameters(object):
                      {'LINEAR_COEF': 36044.48, 'LINEAR_CONSTANT': -2888.0051,
                       'X_MIN': 0.25, 'X_MAX': 1.6,
                       'Y_MIN': float('-Inf'), 'Y_MAX': float('Inf')}),
+            Function('transcription_efficiency', 'constant',
+                     {'CONSTANT': 223200}),
             # targets
             Function('mrna_degradation_flux', 'constant',
                      {'CONSTANT': 0.15996}),

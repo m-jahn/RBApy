@@ -201,7 +201,8 @@ class ModelBuilder(object):
                                       c, average_composition)
         # machinery proteins
         for prot in itertools.chain(self.data.ribosome.proteins,
-                                    self.data.chaperone.proteins):
+                                    self.data.chaperone.proteins,
+                                    self.data.transcription.proteins):
             loc = prot.location if prot.location else self._cytoplasm()
             builder.add_macromolecule(prot.id, loc, prot.composition())
         return builder.result
@@ -312,7 +313,7 @@ class ModelBuilder(object):
         result = [
             def_proc.translation(self.data.ribosome.composition(), proteins),
             def_proc.folding(self.data.chaperone.composition(), proteins),
-            def_proc.transcription(rnas),
+            def_proc.transcription(self.data.transcription.composition(), rnas),
             def_proc.replication(dnas),
             def_proc.rna_degradation(rnas)
         ]
@@ -328,6 +329,7 @@ class ModelBuilder(object):
                      for c in self.data.compartments()]
         proteins += self.data.ribosome.protein_ids()
         proteins += self.data.chaperone.protein_ids()
+        proteins += self.data.transcription.protein_ids()
         return proteins
 
     def _all_rna_ids(self):

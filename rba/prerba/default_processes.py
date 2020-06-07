@@ -106,7 +106,7 @@ class DefaultProcesses(object):
             )
         return process
 
-    def transcription(self, inputs):
+    def transcription(self, transcription_machinery_composition, inputs):
         """
         Build transcription process.
 
@@ -122,6 +122,12 @@ class DefaultProcesses(object):
 
         """
         process = rba.xml.Process('P_TSC', 'Transcription')
+        # capacity constraint
+        process.machinery.capacity.value = 'transcription_efficiency'
+        # machinery
+        machine = process.machinery.machinery_composition
+        for id_, sto in transcription_machinery_composition.items():
+            machine.reactants.append(rba.xml.SpeciesReference(id_, sto))
         default_metabolites = self.default.metabolites
         process.processings.productions.append(
             create_processing('transcription', 'rna', inputs)
