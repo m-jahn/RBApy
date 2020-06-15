@@ -58,6 +58,8 @@ class DefaultParameters(object):
                       'Y_MIN': float('-Inf'), 'Y_MAX': float('Inf')}),
             Function('transcription_efficiency', 'constant',
                      {'CONSTANT': 223200}),
+            Function('replication_efficiency', 'constant',
+                     {'CONSTANT': 2880000}),
             # targets
             Function('mrna_degradation_flux', 'constant',
                      {'CONSTANT': 0.15996}),

@@ -134,7 +134,7 @@ class DefaultProcesses(object):
             )
         return process
 
-    def replication(self, inputs):
+    def replication(self, replication_machinery_composition, inputs):
         """
         Build replication process.
 
@@ -150,6 +150,13 @@ class DefaultProcesses(object):
 
         """
         process = rba.xml.Process('P_REP', 'Replication')
+        # capacity constraint
+        process.machinery.capacity.value = 'replication_efficiency'
+        # machinery
+        machine = process.machinery.machinery_composition
+        for id_, sto in replication_machinery_composition.items():
+            machine.reactants.append(rba.xml.SpeciesReference(id_, sto))
+            
         process.processings.productions.append(
             create_processing('replication', 'dna', inputs)
             )
@@ -259,7 +266,7 @@ class DefaultProcesses(object):
         """
         map_ = rba.xml.ProcessingMap('transcription')
         for n in self.default.metabolites.nucleotides:
-            cost = rba.xml.ComponentProcessing(n)
+            cost = rba.xml.ComponentProcessing(n, 1)
             self._append_metabolite(
                 cost.reactants, self.default.metabolites.ntp_key(n), 1
                 )
@@ -302,7 +309,7 @@ class DefaultProcesses(object):
         """
         map_ = rba.xml.ProcessingMap('replication')
         for n in self.default.metabolites.d_nucleotides:
-            cost = rba.xml.ComponentProcessing(n)
+            cost = rba.xml.ComponentProcessing(n, 1)
             self._append_metabolite(
                 cost.reactants, self.default.metabolites.dntp_key(n), 1
                 )

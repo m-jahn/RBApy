@@ -202,7 +202,8 @@ class ModelBuilder(object):
         # machinery proteins
         for prot in itertools.chain(self.data.ribosome.proteins,
                                     self.data.chaperone.proteins,
-                                    self.data.transcription.proteins):
+                                    self.data.transcription.proteins,
+                                    self.data.replication.proteins,):
             loc = prot.location if prot.location else self._cytoplasm()
             builder.add_macromolecule(prot.id, loc, prot.composition())
         return builder.result
@@ -314,7 +315,7 @@ class ModelBuilder(object):
             def_proc.translation(self.data.ribosome.composition(), proteins),
             def_proc.folding(self.data.chaperone.composition(), proteins),
             def_proc.transcription(self.data.transcription.composition(), rnas),
-            def_proc.replication(dnas),
+            def_proc.replication(self.data.replication.composition(), dnas),
             def_proc.rna_degradation(rnas)
         ]
         # !!! Useless processes added because test model runs faster
@@ -330,6 +331,7 @@ class ModelBuilder(object):
         proteins += self.data.ribosome.protein_ids()
         proteins += self.data.chaperone.protein_ids()
         proteins += self.data.transcription.protein_ids()
+        proteins += self.data.replication.protein_ids()
         return proteins
 
     def _all_rna_ids(self):

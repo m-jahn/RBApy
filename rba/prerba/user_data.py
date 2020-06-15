@@ -88,6 +88,8 @@ class UserData(object):
                                        self.protein_data)
         self.transcription = UserMachinery(self.input_path('transcription.fasta'),
                                        self.protein_data)
+        self.replication = UserMachinery(self.input_path('replication.fasta'),
+                                       self.protein_data)
 
     def _sbml_species_ids(self):
         return set([s.id for s in self.sbml_data.species])
