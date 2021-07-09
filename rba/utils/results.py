@@ -156,7 +156,7 @@ class Results(object):
         -------
         dictionary of flux: values written to the file
         '''
-        if file_type not in ('json', 'csv'):
+        if file_type not in ('json', 'csv', 'tsv'):
             raise ValueError('file_type can be either json on csv')
         rf = self.reaction_fluxes()
         if remove_prefix:
@@ -178,6 +178,9 @@ class Results(object):
         elif file_type == 'csv':
             with open(output_file, 'w') as fout:
                 fout.write('\n'.join(['{};{}'.format(k, v) for k, v in rf.items()]))
+        elif file_type == 'tsv':
+            with open(output_file, 'w') as fout:
+                fout.write('\n'.join(['{}\t{}'.format(k, v) for k, v in rf.items()]))
         return rf
 
     def write_proteins(self, output_file, file_type='csv'):
